@@ -13,7 +13,6 @@
 
 namespace scout { 
 
-// Enum for players, equivalent to Java's Player enum
 enum class Player
 {
     ONE,
@@ -21,7 +20,6 @@ enum class Player
     NONE
 };
 
-// Helper function to get the opponent
 inline Player opponent(Player p)
 {
     if (p == Player::ONE)
@@ -72,8 +70,6 @@ public:
     std::string toString() const;
 
 private:
-
-    // Private member variables
     Player _currentPlayer;
     bool _isGameOver;
     std::optional<Player> _winner;
@@ -83,7 +79,6 @@ private:
     int _specialTwo;
     std::array<int, 18> _cells;
 
-    // Private helper methods
     int moveByCell(int cell) const;
     int nextCell(int cell) const;
     bool checkGameOver() const;
@@ -98,7 +93,6 @@ private:
  */
 class Outcomes {
 public:
-    // Default constructor initializes all outcomes to zero.
     Outcomes() = default;
 
     /**

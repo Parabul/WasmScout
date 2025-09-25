@@ -13,6 +13,13 @@ Build Wasm static library
 /build.sh --build_wasm_static_lib --enable_wasm_simd --disable_wasm_exception_catching --disable_rtti --enable_wasm_threads  --minimal_build --skip_tests --config Release
 ```
 
+# ONNX model to ORT model in header file
+```shell
+cd ./testdata/
+python3 convert.py
+xxd -i nine_pebbles.ort > model.h
+```
+
 ## Build JavaScript/Wasm
 ```shell
 bazel build -c opt -s --config=wasm //lib:hello-main-wasm
