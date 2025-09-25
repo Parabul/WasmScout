@@ -39,3 +39,19 @@
 
 # debug information files
 *.dwo
+
+# Bazel output directory and symlinks
+bazel-*
+.bazel/
+.cache/bazel/
+
+# Bazel-generated files
+bazel-bin/
+bazel-genfiles/
+bazel-out/
+bazel-testlogs/
+bazel-scratch/
+
+# IDE-specific files (examples)
+.idea/
+.vscode/

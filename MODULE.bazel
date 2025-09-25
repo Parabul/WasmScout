@@ -1,0 +1,12 @@
+"""
+Wasm deployment of Reinforcement Learning using Monte Carlo Tree Search and
+ONNX inference for state evaluation
+"""
+module(
+    name = "wasm_scout",
+    version = "1.0",
+)
+
+bazel_dep(name = "rules_cc", version = "0.2.3")
+bazel_dep(name = "emsdk", version = "4.0.13")
+bazel_dep(name = "googletest", version = "1.14.0")
