@@ -30,7 +30,7 @@ cc_library(
     srcs = ["mcts.cc"],
     deps = [
         ":game",
-        "//third_party/onnxruntime:onnxruntime",
+        "//third_party/onnxruntime",
         ":model",
     ],
     visibility = ["//main:__pkg__"],

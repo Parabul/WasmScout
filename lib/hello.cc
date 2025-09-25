@@ -155,7 +155,6 @@ namespace scout
     // return val;
 }
 
-// Conditionally compile the bindings block
 #ifdef __EMSCRIPTEN__
 EMSCRIPTEN_BINDINGS(my_module)
 {

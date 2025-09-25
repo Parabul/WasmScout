@@ -8,6 +8,12 @@
 #include <assert.h>
 #include <iostream>
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten/bind.h>
+
+using namespace emscripten;
+#endif
+
 namespace scout
 {
     GameState::GameState()
@@ -51,6 +57,11 @@ namespace scout
 
         _isGameOver = checkGameOver();
         _winner = checkWinner();
+    }
+
+    std::vector<int> scout::GameState::getCells() const
+    {
+        return std::vector<int>(_cells.begin(), _cells.end());
     }
 
     // --- Private Helper Methods ---
@@ -405,5 +416,20 @@ namespace scout
                this->_second == other._second &&
                this->_ties == other._ties;
     }
+
+#ifdef __EMSCRIPTEN__
+    EMSCRIPTEN_BINDINGS(scout)
+    {
+        class_<GameState>("GameState")
+            .constructor<>()
+            .function("toString", &GameState::toString)
+            .function("move", &GameState::move)
+            .property("score_one", &GameState::getScoreOne)
+            .property("cells", &GameState::getCells);
+        
+        register_vector<int>("vector<int>");
+    }
+
+#endif
 
 } // scout
