@@ -1,5 +1,5 @@
 # WasmScout
-Nine Pebbles Web Assembly (C++) client
+Nine Pebbles Web Assembly (C++) client: https://parabul.github.io/WasmScout/
 
 ## Install ONNX Runtime
 
