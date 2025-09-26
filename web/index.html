@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WASM Demo</title>
+</head>
+<body>
+
+    <div id="container">
+        <div>
+			<h2>Current State</h2>
+			<pre id ="current-state">
+			</pre>
+		<div>
+			<pre id="history"></pre>
+		<div>
+		<button id="robo-move">Robot Move</button>
+		<input type="number" id="input-move"/>
+		<button id="human-move">Human Move</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
+	<script src="main.js"></script>
+	
+	
+    <script>
+		const roboMoveButton = document.getElementById('robo-move');
+        const humanMoveInput = document.getElementById('input-move');
+        const humanMoveButton = document.getElementById('human-move');
+        const currentStateDiv = document.getElementById('current-state');
+		const historyDiv = document.getElementById('history');
+
+		var currentState;
+        
+        
+        Module.onRuntimeInitialized = function() {
+            console.log("WASM module loaded.");
+            console.log(Module);
+            currentState = new Module.GameState();
+            currentStateDiv.textContent = currentState.toString();
+        };
+        
+        async function roboMove() {
+			var move = Module.infer(currentState);
+			console.log("Robo move: "+ move);
+			
+			var child = currentState.move(move);
+			
+			console.log(child.toString());
+			
+			currentState.delete();
+			currentState = child;
+			currentStateDiv.textContent = currentState.toString();
+		}
+		
+		async function humanMove() {
+			move = humanMoveInput.value;
+			console.log("Human move: "+ move);
+			if(move < 0 || move > 8) return;
+			
+			var child = currentState.move(move);
+			
+			console.log(child.toString());
+			
+			currentState.delete();
+			currentState = child;
+			currentStateDiv.textContent = currentState.toString();
+		}
+		
+		
+		roboMoveButton.addEventListener('click', roboMove);
+		humanMoveButton.addEventListener('click', humanMove);
+    </script>
+
+</body>
+</html>

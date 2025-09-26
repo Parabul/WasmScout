@@ -50,6 +50,9 @@ namespace scout
         // Default constructor
         GameState();
 
+        // Copy constructor
+        GameState(const GameState &other) = default;
+
         // Sparse initialization constructor
         GameState(Player currentPlayer, const std::map<int, int> &nonZeroValues,
                   int scoreOne, int scoreTwo, int specialOne, int specialTwo);

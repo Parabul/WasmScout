@@ -46,9 +46,9 @@ cc_test(
 )
 
 cc_library(
-    name = "hello",
-    srcs = ["hello.cc"],
-    hdrs = ["hello.h"],
+    name = "wasm",
+    srcs = ["wasm.cc"],
+    hdrs = ["wasm.h"],
     deps = [
         ":game",
         ":mcts",
@@ -58,24 +58,26 @@ cc_library(
 )
 
 cc_binary(
-    name = "hello-main",
-    srcs = ["hello_main.cc"],
+    name = "main",
+    srcs = ["wasm_main.cc"],
     deps = [
-        ":hello",
+        ":wasm",
+        ":game",
     ],
 )
 
 wasm_cc_binary(
-    name = "hello-main-wasm",
-    cc_target = ":hello-main",
+    name = "wasm-main",
+    cc_target = ":main",
 )
 
 
 cc_test(
-    name = "hello_test",
-    srcs = ["hello_test.cc"],
+    name = "wasm_test",
+    srcs = ["wasm_test.cc"],
     deps = [
-        ":hello",
+        ":wasm",
+        ":game",
         "@googletest//:gtest_main",
     ],
 )
