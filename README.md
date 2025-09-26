@@ -18,11 +18,12 @@ Build Wasm static library
 cd ./testdata/
 python3 convert.py
 xxd -i nine_pebbles.ort > model.h
+cd ..
 ```
 
 ## Build JavaScript/Wasm
 ```shell
-bazel build -c opt -s --config=wasm //lib:hello-main-wasm
+bazel build -c opt -s --config=wasm //lib:wasm-main
 
-node bazel-bin/lib/hello-main-wasm/hello-main.js
+node bazel-bin/lib/wasm-main/main.js
 ```
