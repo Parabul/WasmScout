@@ -17,37 +17,37 @@ using namespace emscripten;
 namespace scout
 {
     GameState::GameState()
-        : _currentPlayer(Player::ONE),
-          _isGameOver(false),
+        : _current_player(Player::ONE),
+          _is_game_over(false),
           _winner(std::nullopt),
-          _scoreOne(0),
-          _scoreTwo(0),
-          _specialOne(SPECIAL_NOT_SET),
-          _specialTwo(SPECIAL_NOT_SET)
+          _score_one(0),
+          _score_two(0),
+          _special_one(SPECIAL_NOT_SET),
+          _special_two(SPECIAL_NOT_SET)
     {
         _cells.fill(9);
     }
 
     GameState::GameState(Player currentPlayer, int scoreOne, int scoreTwo,
                          int specialOne, int specialTwo, std::array<int, 18> cells)
-        : _currentPlayer(currentPlayer),
-          _scoreOne(scoreOne),
-          _scoreTwo(scoreTwo),
-          _specialOne(specialOne),
-          _specialTwo(specialTwo),
+        : _current_player(currentPlayer),
+          _score_one(scoreOne),
+          _score_two(scoreTwo),
+          _special_one(specialOne),
+          _special_two(specialTwo),
           _cells(cells)
     {
-        _isGameOver = checkGameOver();
+        _is_game_over = checkGameOver();
         _winner = checkWinner();
     }
 
     GameState::GameState(Player currentPlayer, const std::map<int, int> &nonZeroValues,
                          int scoreOne, int scoreTwo, int specialOne, int specialTwo)
-        : _currentPlayer(currentPlayer),
-          _scoreOne(static_cast<int>(scoreOne)),
-          _scoreTwo(static_cast<int>(scoreTwo)),
-          _specialOne(static_cast<int>(specialOne)),
-          _specialTwo(static_cast<int>(specialTwo))
+        : _current_player(currentPlayer),
+          _score_one(static_cast<int>(scoreOne)),
+          _score_two(static_cast<int>(scoreTwo)),
+          _special_one(static_cast<int>(specialOne)),
+          _special_two(static_cast<int>(specialTwo))
     {
         _cells.fill(0);
         for (const auto &pair : nonZeroValues)
@@ -55,7 +55,7 @@ namespace scout
             _cells[pair.first] = static_cast<int>(pair.second);
         }
 
-        _isGameOver = checkGameOver();
+        _is_game_over = checkGameOver();
         _winner = checkWinner();
     }
 
@@ -86,21 +86,21 @@ namespace scout
 
     Player GameState::isSpecial(int cell) const
     {
-        if (_specialOne == cell)
+        if (_special_one == cell)
             return Player::ONE;
-        if (_specialTwo == cell)
+        if (_special_two == cell)
             return Player::TWO;
         return Player::NONE;
     }
 
     bool GameState::isReachable(int cell) const
     {
-        return (_currentPlayer == Player::ONE) ? (cell > 8) : (cell < 9);
+        return (_current_player == Player::ONE) ? (cell > 8) : (cell < 9);
     }
 
     int GameState::boardCell(int move) const
     {
-        if (_currentPlayer == Player::ONE)
+        if (_current_player == Player::ONE)
             return 8 - move;
         return 9 + move;
     }
@@ -112,9 +112,9 @@ namespace scout
 
     bool GameState::checkGameOver() const
     {
-        if (_scoreOne > 81 || _scoreTwo > 81)
+        if (_score_one > 81 || _score_two > 81)
             return true;
-        if (_scoreOne == 81 && _scoreTwo == 81)
+        if (_score_one == 81 && _score_two == 81)
             return true;
 
         // Equivalent to IntStream.range(0, 9).noneMatch(move -> isMoveAllowed(move));
@@ -132,11 +132,11 @@ namespace scout
     {
         if (!isGameOver())
             return std::nullopt;
-        if (_scoreOne > 81)
+        if (_score_one > 81)
             return Player::ONE;
-        if (_scoreTwo > 81)
+        if (_score_two > 81)
             return Player::TWO;
-        if (_scoreOne == 81 && _scoreTwo == 81)
+        if (_score_one == 81 && _score_two == 81)
             return Player::NONE; // Draw
 
         bool noMovesAllowed = true;
@@ -150,7 +150,7 @@ namespace scout
         }
         if (noMovesAllowed)
         {
-            return opponent(_currentPlayer);
+            return opponent(_current_player);
         }
 
         std::cout << toString() << "\n Unknown winner state";
@@ -169,10 +169,10 @@ namespace scout
 
         int cell = boardCell(move);
         std::array<int, 18> newCells = _cells; // Copy cells
-        int newScoreOne = _scoreOne;
-        int newScoreTwo = _scoreTwo;
-        int newSpecialOne = _specialOne;
-        int newSpecialTwo = _specialTwo;
+        int newScoreOne = _score_one;
+        int newScoreTwo = _score_two;
+        int newSpecialOne = _special_one;
+        int newSpecialTwo = _special_two;
 
         int hand = newCells[cell];
         newCells[cell] = 0;
@@ -203,9 +203,9 @@ namespace scout
             {
                 if (newCells[currentCell] % 2 == 0)
                 {
-                    if (_currentPlayer == Player::ONE)
+                    if (_current_player == Player::ONE)
                         newScoreOne += newCells[currentCell];
-                    if (_currentPlayer == Player::TWO)
+                    if (_current_player == Player::TWO)
                         newScoreTwo += newCells[currentCell];
                     newCells[currentCell] = 0;
                 }
@@ -216,7 +216,7 @@ namespace scout
                     int possibleSpecialCellMove = moveByCell(currentCell);
                     bool canSetSpecial = (possibleSpecialCellMove != 8);
 
-                    if (_currentPlayer == Player::ONE && newSpecialOne == SPECIAL_NOT_SET && canSetSpecial &&
+                    if (_current_player == Player::ONE && newSpecialOne == SPECIAL_NOT_SET && canSetSpecial &&
                         (newSpecialTwo == SPECIAL_NOT_SET || possibleSpecialCellMove != moveByCell(newSpecialTwo)))
                     {
                         newScoreOne += 3;
@@ -224,7 +224,7 @@ namespace scout
                         newSpecialOne = static_cast<int>(currentCell);
                     }
 
-                    if (_currentPlayer == Player::TWO && newSpecialTwo == SPECIAL_NOT_SET && canSetSpecial &&
+                    if (_current_player == Player::TWO && newSpecialTwo == SPECIAL_NOT_SET && canSetSpecial &&
                         (newSpecialOne == SPECIAL_NOT_SET || possibleSpecialCellMove != moveByCell(newSpecialOne)))
                     {
                         newScoreTwo += 3;
@@ -236,7 +236,7 @@ namespace scout
             currentCell = nextCell(currentCell);
         }
 
-        auto new_state = std::make_unique<GameState>(opponent(_currentPlayer), newScoreOne, newScoreTwo, newSpecialOne, newSpecialTwo, newCells);
+        auto new_state = std::make_unique<GameState>(opponent(_current_player), newScoreOne, newScoreTwo, newSpecialOne, newSpecialTwo, newCells);
 
         return new_state;
     }
@@ -245,7 +245,7 @@ namespace scout
     {
         std::stringstream ss;
         ss << "-------------------------------\n";
-        ss << static_cast<int>(_scoreOne) << ":" << static_cast<int>(_scoreTwo) << "\n";
+        ss << static_cast<int>(_score_one) << ":" << static_cast<int>(_score_two) << "\n";
 
         auto print_row = [&](int start_index)
         {
@@ -267,8 +267,8 @@ namespace scout
         print_row(0);
         print_row(9);
 
-        ss << "Current Player: " << (_currentPlayer == Player::ONE ? "ONE" : "TWO") << "\n";
-        ss << "Is GameOver: " << (_isGameOver ? "true" : "false") << "\n";
+        ss << "Current Player: " << (_current_player == Player::ONE ? "ONE" : "TWO") << "\n";
+        ss << "Is GameOver: " << (_is_game_over ? "true" : "false") << "\n";
         ss << "Winner: ";
         if (_winner.has_value())
         {
@@ -292,31 +292,31 @@ namespace scout
     {
         std::vector<float> encoded(NUM_FEATURES, 0.0f);
 
-        if (_currentPlayer == Player::ONE)
+        if (_current_player == Player::ONE)
         {
-            if (_specialOne != SPECIAL_NOT_SET)
-                encoded[moveByCell(_specialOne)] = 1.0f;
-            if (_specialTwo != SPECIAL_NOT_SET)
-                encoded[9 + moveByCell(_specialTwo)] = 1.0f;
+            if (_special_one != SPECIAL_NOT_SET)
+                encoded[moveByCell(_special_one)] = 1.0f;
+            if (_special_two != SPECIAL_NOT_SET)
+                encoded[9 + moveByCell(_special_two)] = 1.0f;
             for (int i = 0; i < 9; ++i)
                 encoded[18 + i] = static_cast<float>(_cells[8 - i]) / 81.0f;
             for (int i = 0; i < 9; ++i)
                 encoded[27 + i] = static_cast<float>(_cells[9 + i]) / 81.0f;
-            encoded[36] = static_cast<float>(_scoreOne) / 81.0f;
-            encoded[37] = static_cast<float>(_scoreTwo) / 81.0f;
+            encoded[36] = static_cast<float>(_score_one) / 81.0f;
+            encoded[37] = static_cast<float>(_score_two) / 81.0f;
         }
         else
         { // Player TWO
-            if (_specialTwo != SPECIAL_NOT_SET)
-                encoded[moveByCell(_specialTwo)] = 1.0f;
-            if (_specialOne != SPECIAL_NOT_SET)
-                encoded[9 + moveByCell(_specialOne)] = 1.0f;
+            if (_special_two != SPECIAL_NOT_SET)
+                encoded[moveByCell(_special_two)] = 1.0f;
+            if (_special_one != SPECIAL_NOT_SET)
+                encoded[9 + moveByCell(_special_one)] = 1.0f;
             for (int i = 0; i < 9; ++i)
                 encoded[18 + i] = static_cast<float>(_cells[9 + i]) / 81.0f;
             for (int i = 0; i < 9; ++i)
                 encoded[27 + i] = static_cast<float>(_cells[8 - i]) / 81.0f;
-            encoded[36] = static_cast<float>(_scoreTwo) / 81.0f;
-            encoded[37] = static_cast<float>(_scoreOne) / 81.0f;
+            encoded[36] = static_cast<float>(_score_two) / 81.0f;
+            encoded[37] = static_cast<float>(_score_one) / 81.0f;
         }
 
         GameStateMoveValuesEstimator estimator;
@@ -425,9 +425,21 @@ namespace scout
             .function("toString", &GameState::toString)
             .function("move", &GameState::move)
             .property("score_one", &GameState::getScoreOne)
+            .property("score_two", &GameState::getScoreTwo)
+            .property("special_one", &GameState::getSpecialOne)
+            .property("special_two", &GameState::getSpecialTwo)
+            .property("current_player", &GameState::getCurrentPlayer)
+            .property("is_game_over", &GameState::isGameOver)
+            .property("winner", &GameState::getWinner)
             .property("cells", &GameState::getCells);
-        
+
         register_vector<int>("vector<int>");
+
+        enum_<Player>("Player")
+            .value("ONE", Player::ONE)
+            .value("TWO", Player::TWO);
+
+        register_optional<Player>();
     }
 
 #endif

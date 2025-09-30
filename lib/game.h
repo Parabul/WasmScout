@@ -64,23 +64,25 @@ namespace scout
         std::unique_ptr<GameState> move(int move) const;
 
         bool isMoveAllowed(int move) const;
-        bool isGameOver() const { return _isGameOver; }
-        Player getCurrentPlayer() const { return _currentPlayer; }
+        bool isGameOver() const { return _is_game_over; }
+        Player getCurrentPlayer() const { return _current_player; }
         std::optional<Player> getWinner() const { return _winner; }
         std::vector<float> encode() const;
-        int getScoreOne() const { return _scoreOne; }
-        int getScoreTwo() const { return _scoreTwo; }
+        int getScoreOne() const { return _score_one; }
+        int getScoreTwo() const { return _score_two; }
+        int getSpecialOne() const { return _special_one; }
+        int getSpecialTwo() const { return _special_two; }
         std::string toString() const;
         std::vector<int> getCells() const;
 
     private:
-        Player _currentPlayer;
-        bool _isGameOver;
+        Player _current_player;
+        bool _is_game_over;
         std::optional<Player> _winner;
-        int _scoreOne;
-        int _scoreTwo;
-        int _specialOne;
-        int _specialTwo;
+        int _score_one;
+        int _score_two;
+        int _special_one;
+        int _special_two;
         std::array<int, 18> _cells;
 
         int moveByCell(int cell) const;

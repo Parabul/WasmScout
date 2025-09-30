@@ -5,75 +5,299 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>WASM Demo</title>
+	<link href="bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
 
-	<div id="container">
-		<div>
-			<h2>Current State</h2>
-			<pre id="current-state">
-			</pre>
-			<div>
-				<pre id="history"></pre>
+	<body class="d-flex align-items-center justify-content-center">
+		<div class="p-1 m-1 w-100 justify-content-center">
+			<div class="d-none">
+				<h2>Current State</h2>
+				<pre id="current-state"></pre>
+			</div>
+			<div class="container">
+				<table class="w-100 p-1">
+					<tr>
+						<td>
+							<div class="d-flex flex-column align-items-center w-100">
+								<small class="text-muted">9</small>
+								<span class="btn btn-light disabled rounded-pill p-1 fs-6 w-100" id="cell-17"
+									disabled>99</span>
+							</div>
+						</td>
+						<td>
+							<div class="d-flex flex-column align-items-center">
+								<small class="text-muted">8</small>
+								<span class="btn btn-light disabled rounded-pill p-1 fs-6 w-100" id="cell-16"
+									disabled>99</span>
+							</div>
+						</td>
+						<td>
+							<div class="d-flex flex-column align-items-center">
+								<small class="text-muted">7</small>
+								<span class="btn btn-light disabled rounded-pill p-1 fs-6 w-100" id="cell-15"
+									disabled>99</span>
+							</div>
+						</td>
+						<td>
+							<div class="d-flex flex-column align-items-center">
+								<small class="text-muted">6</small>
+								<span class="btn btn-light disabled rounded-pill p-1 fs-6 w-100" id="cell-14"
+									disabled>99</span>
+							</div>
+						</td>
+						<td>
+							<div class="d-flex flex-column align-items-center">
+								<small class="text-muted">5</small>
+								<span class="btn btn-light disabled rounded-pill p-1 fs-6 w-100" id="cell-13"
+									disabled>99</span>
+							</div>
+						</td>
+						<td>
+							<div class="d-flex flex-column align-items-center">
+								<small class="text-muted">4</small>
+								<span class="btn btn-light disabled rounded-pill p-1 fs-6 w-100" id="cell-12"
+									disabled>99</span>
+							</div>
+						<td>
+							<div class="d-flex flex-column align-items-center">
+								<small class="text-muted">3</small>
+								<span class="btn btn-light disabled rounded-pill p-1 fs-6 w-100" id="cell-11"
+									disabled>99</span>
+							</div>
+						</td>
+						<td>
+							<div class="d-flex flex-column align-items-center">
+								<small class="text-muted">2</small>
+								<span class="btn btn-light disabled rounded-pill p-1 fs-6 w-100" id="cell-10"
+									disabled>99</span>
+							</div>
+						</td>
+						<td>
+							<div class="d-flex flex-column align-items-center">
+								<small class="text-muted">1</small>
+								<span class="btn btn-light disabled rounded-pill p-1 fs-6 w-100" id="cell-9"
+									disabled>99</span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3">
+							<div class="d-flex flex-column align-items-center w-100">
+								<span class="p-2 fs-3" id="score-one">0</span>
+								<small class="text-muted">Player</small>
+							</div>
+						</td>
+						<td colspan="3">
+						</td>
+						<td colspan="3">
+							<div class="d-flex flex-column align-items-center w-100">
+								<span class="p-2 fs-3" id="score-two">0</span>
+								<small class="text-muted">Opponent</small>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="d-flex flex-column align-items-center w-100">
+								<span class="btn btn-primary rounded-pill p-1 fs-6 w-100" id="cell-8" move="0">99</span>
+								<small class="text-muted">1</small>
+							</div>
+						</td>
+						<td>
+							<div class="d-flex flex-column align-items-center">
+								<span class="btn btn-primary rounded-pill p-1 fs-6 w-100" id="cell-7" move="1">99</span>
+								<small class="text-muted">2</small>
+							</div>
+						</td>
+						<td>
+							<div class="d-flex flex-column align-items-center">
+								<span class="btn btn-primary rounded-pill p-1 fs-6 w-100" id="cell-6" move="2">99</span>
+								<small class="text-muted">3</small>
+							</div>
+						</td>
+						<td>
+							<div class="d-flex flex-column align-items-center">
+								<span class="btn btn-primary rounded-pill p-1 fs-6 w-100" id="cell-5" move="3">99</span>
+								<small class="text-muted">4</small>
+							</div>
+						</td>
+						<td>
+							<div class="d-flex flex-column align-items-center">
+								<span class="btn btn-primary rounded-pill p-1 fs-6 w-100" id="cell-4" move="4">99</span>
+								<small class="text-muted">5</small>
+							</div>
+						</td>
+						<td>
+							<div class="d-flex flex-column align-items-center">
+								<span class="btn btn-primary rounded-pill p-1 fs-6 w-100" id="cell-3" move="5">99</span>
+								<small class="text-muted">6</small>
+							</div>
+						</td>
+						<td>
+							<div class="d-flex flex-column align-items-center">
+								<span class="btn btn-primary rounded-pill p-1 fs-6 w-100" id="cell-2" move="6">99</span>
+								<small class="text-muted">7</small>
+							</div>
+						</td>
+						<td>
+							<div class="d-flex flex-column align-items-center">
+								<span class="btn btn-primary rounded-pill p-1 fs-6 w-100" id="cell-1" move="7">99</span>
+								<small class="text-muted">8</small>
+							</div>
+						</td>
+						<td>
+							<div class="d-flex flex-column align-items-center">
+								<span class="btn btn-primary rounded-pill p-1 fs-6 w-100" id="cell-0" move="8">99</span>
+								<small class="text-muted">9</small>
+							</div>
+						</td>
+					</tr>
+				</table>
+
 				<div>
-					<button id="robo-move">Robot Move</button>
-					<input type="number" id="input-move" />
-					<button id="human-move">Human Move</button>
+					<div class="d-flex flex-column align-items-left w-100">
+						<span class="p-2 fs-6" id="current-player">Loading...</span>
+						<small class="text-muted"></small>
+
+						<div id="game-over-block" class="alert alert-dismissible alert-danger  d-none">
+							<div class="p-1 fs-4"><strong>Game over:</strong> <span id="winner"></span> won!</div>
+
+							<div class="btn btn-danger" id="restart-btn">Restart</div>
+						</div>
+					</div>
+
 				</div>
-
-				<script src="main.js"></script>
-
-
-				<script>
-					const roboMoveButton = document.getElementById('robo-move');
-					const humanMoveInput = document.getElementById('input-move');
-					const humanMoveButton = document.getElementById('human-move');
-					const currentStateDiv = document.getElementById('current-state');
-					const historyDiv = document.getElementById('history');
-
-					var currentState;
+			</div>
+	</body>
+	<script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
+	<script src="main.js"></script>
+	<script>
+		const delay = ms => new Promise(res => setTimeout(res, ms));
 
 
-					Module.onRuntimeInitialized = function () {
-						console.log("WASM module loaded.");
-						console.log(Module);
-						currentState = new Module.GameState();
-						currentStateDiv.textContent = currentState.toString();
-					};
+		var currentState;
 
-					async function roboMove() {
-						var move = Module.infer(currentState);
-						console.log("Robo move: " + move);
+		const scoreOne = document.getElementById('score-one');
+		const scoreTwo = document.getElementById('score-two');
+		const currentPlayer = document.getElementById('current-player');
+		const currentStateDiv = document.getElementById('current-state');
+		const winnerDiv = document.getElementById('winner');
+		const gameOverBlock = document.getElementById('game-over-block');
 
-						var child = currentState.move(move);
 
-						console.log(child.toString());
+		async function playerMove(event) {
+			if (event.target.getAttribute('disabled')) {
+				return;
+			}
+			const move = event.target.getAttribute('move');
 
-						currentState.delete();
-						currentState = child;
-						currentStateDiv.textContent = currentState.toString();
+			var child = currentState.move(move);
+
+
+			currentState.delete();
+			currentState = child;
+			currentStateDiv.textContent = currentState.toString();
+
+			renderState();
+
+			await delay(1000);
+			console.log("Waited 1s");
+			roboMove();
+		}
+
+		async function roboMove() {
+			var move = Module.infer(currentState);
+
+			var child = currentState.move(move);
+
+			currentState.delete();
+			currentState = child;
+			currentStateDiv.textContent = currentState.toString();
+
+			renderState();
+		}
+
+		async function restart() {
+			window.location.reload();
+		}
+
+		document.getElementById('restart-btn').addEventListener('click', restart);
+
+
+
+		var cells = [];
+		for (i = 0; i < 18; i++) {
+			cells[i] = document.getElementById('cell-' + i);
+			cells[i].addEventListener('click', playerMove);
+		}
+
+		async function renderState() {
+			scoreOne.textContent = currentState.score_one;
+			scoreTwo.textContent = currentState.score_two;
+			if (currentState.is_game_over) {
+
+				currentPlayer.textContent = '';
+				winnerDiv.textContent = currentState.winner.value == 0 ? 'Human' : 'Robot';
+				gameOverBlock.classList.remove('d-none');
+
+				for (i = 0; i < 18; i++) {
+					cells[i].setAttribute('disabled', true);
+					cells[i].classList.remove('btn-primary');
+					cells[i].classList.add('btn-light');
+					if (currentState.special_one == i) {
+						cells[i].textContent = '*';
+					} else if (currentState.special_two == i) {
+						cells[i].textContent = '*';
+					} else {
+						cells[i].textContent = currentState.cells.get(i);
 					}
+				}
 
-					async function humanMove() {
-						move = humanMoveInput.value;
-						console.log("Human move: " + move);
-						if (move < 0 || move > 8) return;
-
-						var child = currentState.move(move);
-
-						console.log(child.toString());
-
-						currentState.delete();
-						currentState = child;
-						currentStateDiv.textContent = currentState.toString();
+				return;
+			}
+			currentPlayer.textContent = currentState.current_player.value == 0 ? 'Your turn' : 'Thinking...';
+			for (i = 0; i < 18; i++) {
+				if (currentState.special_one == i) {
+					cells[i].textContent = '*';
+					cells[i].setAttribute('disabled', true);
+					cells[i].classList.remove('btn-primary');
+				} else if (currentState.special_two == i) {
+					cells[i].textContent = '*';
+					cells[i].setAttribute('disabled', true);
+					cells[i].classList.remove('btn-primary');
+				} else {
+					cells[i].textContent = currentState.cells.get(i);
+					if (i < 9) { //control human side only:
+						if (currentState.current_player.value == 1 || currentState.cells.get(i) == 0) {
+							cells[i].classList.remove('btn-primary');
+							cells[i].classList.add('btn-light');
+							cells[i].setAttribute('disabled', true);
+						} else {
+							cells[i].classList.add('btn-primary');
+							cells[i].classList.remove('btn-light');
+							cells[i].removeAttribute('disabled');
+						}
 					}
+				}
+			}
+		}
 
 
-					roboMoveButton.addEventListener('click', roboMove);
-					humanMoveButton.addEventListener('click', humanMove);
-				</script>
 
+
+		Module.onRuntimeInitialized = function () {
+			console.log("WASM module loaded.");
+			currentState = new Module.GameState();
+			currentStateDiv.textContent = currentState.toString();
+			renderState();
+		};
+
+
+
+
+	</script>
 </body>
 
 </html>
